@@ -1,0 +1,260 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Enron Email Analysis Platform</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --primary: #005b96;
+      --primary-dark: #003d66;
+      --accent: #ff6b35;
+      --light: #f8f9fa;
+      --dark: #2c3e50;
+      --gray: #6c757d;
+      --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+    
+    /* Reset & basics */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%);
+      color: var(--dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      line-height: 1.6;
+    }
+
+    /* Header styles */
+    header {
+      max-width: 800px;
+      text-align: center;
+      margin-bottom: 3rem;
+      animation: fadeIn 1s ease-out;
+    }
+    
+    header img.logo {
+      max-width: 180px;
+      margin-bottom: 1.5rem;
+      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+      transition: transform 0.3s ease;
+    }
+    
+    header img.logo:hover {
+      transform: scale(1.05);
+    }
+
+    header h1 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+    color: var(--dark);
+    background: linear-gradient(to right, var(--primary), var(--primary-dark));
+    /* Vendor-prefixed background-clip properties */
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    -ms-background-clip: text;
+    -o-background-clip: text;
+    background-clip: text;
+    /* Vendor-prefixed text-fill-color properties */
+    -webkit-text-fill-color: transparent;
+    -moz-text-fill-color: transparent;
+    -ms-text-fill-color: transparent;
+    -o-text-fill-color: transparent;
+    line-height: 1.2;
+  }
+    
+    header p {
+      font-size: 1.2rem;
+      color: var(--gray);
+      line-height: 1.6;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    /* Navigation styles */
+    nav {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      max-width: 800px;
+      width: 100%;
+      margin-bottom: 3rem;
+    }
+
+    .nav-card {
+      background: white;
+      color: var(--dark);
+      text-decoration: none;
+      font-size: 1.1rem;
+      padding: 2rem;
+      border-radius: 12px;
+      font-weight: 600;
+      box-shadow: 0 10px 20px rgba(0, 64, 133, 0.1);
+      transition: var(--transition);
+      text-align: center;
+      flex: 1 1 250px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+    
+    .nav-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+    }
+    
+    .nav-card i {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      color: var(--primary);
+      transition: var(--transition);
+    }
+    
+    .nav-card h3 {
+      font-size: 1.4rem;
+      margin-bottom: 0.5rem;
+      color: var(--dark);
+    }
+    
+    .nav-card p {
+      color: var(--gray);
+      font-weight: 400;
+      font-size: 0.95rem;
+      margin-bottom: 1rem;
+    }
+    
+    .nav-card:hover,
+    .nav-card:focus {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0, 64, 133, 0.2);
+    }
+    
+    .nav-card:hover i {
+      transform: scale(1.1);
+      color: var(--accent);
+    }
+
+    /* Footer styles */
+    footer {
+      margin-top: auto;
+      color: var(--gray);
+      font-size: 0.9rem;
+      text-align: center;
+      padding: 2rem 0 1rem;
+      width: 100%;
+      border-top: 1px solid rgba(0, 0, 0, 0.05);
+      animation: fadeIn 1s ease-out 0.2s both;
+    }
+    
+    footer a {
+      color: var(--primary);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    
+    footer a:hover {
+      color: var(--accent);
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      body {
+        padding: 1.5rem;
+      }
+      
+      header h1 {
+        font-size: 2.2rem;
+      }
+      
+      header p {
+        font-size: 1rem;
+      }
+      
+      .nav-card {
+        flex: 1 1 100%;
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img class="logo" src="{% static 'images/Enron-Logo.png' %}" alt="Enron Logo" />
+    <h1>Enron Email Analysis Platform</h1>
+    <p>
+      Explore the infamous Enron scandal through powerful data visualizations, 
+      narrative timelines, and AI-powered text analysis of thousands of corporate emails.
+    </p>
+  </header>
+
+  <nav aria-label="Primary Navigation">
+    <a href="{% url 'visualization_list' %}" class="nav-card delay-1">
+      <i class="fas fa-chart-bar"></i>
+      <h3>Data Visualizations</h3>
+      <p>Interactive charts and graphs revealing patterns in the email dataset</p>
+      <span class="btn-link">Explore →</span>
+    </a>
+    
+    <a href="{% url 'story' %}" class="nav-card delay-2">
+      <i class="fas fa-book-open"></i>
+      <h3>Story Development</h3>
+      <p>Timeline narratives of key events with related email evidence</p>
+      <span class="btn-link">Discover →</span>
+    </a>
+    
+    <a href="{% url 'agent' %}" class="nav-card delay-3">
+      <i class="fas fa-robot"></i>
+      <h3>AI Text Agent</h3>
+      <p>Ask questions and get insights from the email corpus</p>
+      <span class="btn-link">Try it →</span>
+    </a>
+  </nav>
+
+  <footer>
+    &copy; 2025 Team6 All rights reserved. | 
+    
+  </footer>
+</body>
+</html>

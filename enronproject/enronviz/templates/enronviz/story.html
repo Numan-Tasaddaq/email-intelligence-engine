@@ -1,0 +1,310 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Enron Scandal Narratives</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #005b96;
+            --primary-dark: #03396c;
+            --accent: #ff6b6b;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 5rem 0;
+            margin-bottom: 3rem;
+            clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+        }
+        
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hero-subtitle {
+            font-weight: 300;
+            font-size: 1.5rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .card {
+            border: none;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: var(--transition);
+            height: 100%;
+            background: white;
+            position: relative;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: var(--transition);
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+        }
+        
+        .card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .card-body {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .card-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+        
+        .card-text {
+            color: #6c757d;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+        
+        .date-badge {
+            background-color: rgba(0, 91, 150, 0.1);
+            color: var(--primary);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-weight: 500;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            border-color: var(--primary);
+            padding: 0.6rem 1.5rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: var(--transition);
+            border-radius: 50px;
+            align-self: flex-start;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            border-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 91, 150, 0.3);
+        }
+
+        .btn-outline-light {
+            border: 2px solid white;
+            color: white;
+            background: transparent;
+            padding: 0.8rem 2rem;
+            font-weight: 500;
+            transition: var(--transition);
+            border-radius: 50px;
+        }
+
+        .btn-outline-light:hover {
+            background: white;
+            color: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .home-btn {
+            margin-top: 4rem;
+            margin-bottom: 2rem;
+        }
+        
+        .home-btn .btn {
+            padding: 0.8rem 2rem;
+            font-size: 1.1rem;
+            box-shadow: 0 5px 15px rgba(0, 91, 150, 0.2);
+        }
+        
+        .card-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            opacity: 0.8;
+        }
+
+        .hero-actions {
+            margin-top: 2rem;
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.2rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .hero-section {
+                padding: 3rem 0;
+                clip-path: polygon(0 0, 100% 0, 100% 95%, 0 100%);
+            }
+
+            .hero-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .hero-actions .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+
+        /* Animation classes */
+        .fade-in {
+            animation: fadeIn 1s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
+    </style>
+</head>
+<body>
+
+<!-- Hero Section -->
+<div class="hero-section text-center">
+    <div class="container">
+        <h1 class="hero-title">Enron Scandal Narratives</h1>
+        <p class="hero-subtitle">Explore the key events that shaped one of history's most infamous corporate collapses</p>
+        
+        <div class="hero-actions">
+            <a href="{% url 'all_stories' %}" class="btn btn-outline-light">
+                <i class="fas fa-history me-2"></i>View Full Timeline
+            </a>
+            <a href="{% url 'home' %}" class="btn btn-outline-light">
+                <i class="fas fa-home me-2"></i>Return to Home
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Story Cards -->
+<div class="container py-4">
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        {% for story in narratives %}
+        <div class="col fade-in {% cycle 'delay-1' 'delay-2' 'delay-3' %}">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="card-icon">
+                        {% if story.type == 'trader' %}
+                        <i class="fas fa-chart-line"></i>
+                        {% elif story.type == 'whistleblower' %}
+                        <i class="fas fa-bullhorn"></i>
+                        {% elif story.type == 'accounting' %}
+                        <i class="fas fa-calculator"></i>
+                        {% else %}
+                        <i class="fas fa-gavel"></i>
+                        {% endif %}
+                    </div>
+                    <h5 class="card-title">{{ story.title }}</h5>
+                    <span class="date-badge">
+                        <i class="fas fa-calendar-alt me-2"></i>{{ story.date }}
+                    </span>
+                    <p class="card-text">
+                        {% if story.type == 'trader' %}
+                        Explore the market manipulations and energy trading schemes that fueled Enron's rise.
+                        {% elif story.type == 'whistleblower' %}
+                        Discover the internal warnings and voices that tried to expose the fraud.
+                        {% elif story.type == 'accounting' %}
+                        Examine the creative accounting practices that hid billions in losses.
+                        {% else %}
+                        Follow the legal proceedings and bankruptcy that ended the empire.
+                        {% endif %}
+                    </p>
+                    <a href="{% url 'story_detail' story.type %}" class="btn btn-primary mt-auto">
+                        View Details <i class="fas fa-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Home Button -->
+<div class="container text-center home-btn fade-in delay-3">
+    <a href="{% url 'home' %}" class="btn btn-primary">
+        <i class="fas fa-home me-2"></i>Return to Home
+    </a>
+</div>
+
+<!-- Bootstrap JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Custom JS for animations -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Add hover class for touch devices
+        if ('ontouchstart' in window) {
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                card.addEventListener('click', function() {
+                    this.classList.toggle('hover');
+                });
+            });
+        }
+    });
+</script>
+</body>
+</html>

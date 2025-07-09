@@ -1,0 +1,393 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Enron Story: {{ type|title }}</title>
+
+  <!-- Bootstrap + Font Awesome -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+
+  <style>
+    :root {
+      --primary-color: #005b96;
+      --secondary-color: #03396c;
+      --accent-color: #011f4b;
+      --light-color: #f1f1f1;
+      --dark-color: #333;
+    }
+
+    body {
+      background-color: #f8f9fa;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .timeline {
+      position: relative;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px 0;
+    }
+
+    .timeline::after {
+      content: '';
+      position: absolute;
+      width: 4px;
+      background-color: var(--primary-color);
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      margin-left: -2px;
+    }
+
+    .timeline-event {
+      position: relative;
+      width: 50%;
+      padding: 10px 40px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.5s ease;
+    }
+
+    .timeline-event.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .timeline-event::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: white;
+      border: 4px solid var(--primary-color);
+      border-radius: 50%;
+      top: 15px;
+      z-index: 1;
+    }
+
+    .left {
+      left: 0;
+    }
+
+    .right {
+      left: 50%;
+    }
+
+    .left::after {
+      right: -12px;
+    }
+
+    .right::after {
+      left: -12px;
+    }
+
+    .timeline-content {
+      background-color: white;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .event-date {
+      font-weight: bold;
+      color: var(--primary-color);
+    }
+
+    .event-title {
+      font-size: 22px;
+      color: var(--accent-color);
+      margin-top: 10px;
+    }
+
+    .event-summary {
+      line-height: 1.7;
+      margin: 15px 0;
+    }
+
+    .email-card {
+      border-left: 3px solid var(--primary-color);
+      margin-bottom: 15px;
+      transition: transform 0.3s ease;
+    }
+
+    .email-card:hover {
+      transform: translateX(5px);
+    }
+
+    .email-subject {
+      font-weight: 600;
+      color: var(--dark-color);
+    }
+
+    .email-meta {
+      font-size: 14px;
+      color: #666;
+    }
+
+    .email-content {
+      margin-top: 10px;
+      background-color: #f9f9f9;
+      padding: 10px;
+      border-radius: 4px;
+      max-height: 150px;
+      overflow-y: auto;
+    }
+
+    @media screen and (max-width: 768px) {
+      .timeline::after {
+        left: 31px;
+      }
+
+      .timeline-event {
+        width: 100%;
+        padding-left: 70px;
+        padding-right: 25px;
+      }
+
+      .timeline-event::after {
+        left: 21px;
+      }
+
+      .left::after, .right::after {
+        left: 21px;
+      }
+
+      .right {
+        left: 0;
+      }
+      
+    }
+    .entities-section {
+    margin: 20px 0;
+    padding: 15px;
+    background-color: #f5f5f5;
+    border-radius: 5px;
+}
+
+.entities-list {
+    columns: 2;
+    -webkit-columns: 2;
+    -moz-columns: 2;
+}
+
+@media (max-width: 768px) {
+    .entities-list {
+        columns: 1;
+        -webkit-columns: 1;
+        -moz-columns: 1;
+    }
+}
+  </style>
+</head>
+<body>
+
+<div class="container py-5">
+  <div class="text-center mb-5">
+    <h1 class="display-4">Enron Scandal Timeline</h1>
+    <p class="lead">Key events and related email communications</p>
+    <a href="{% url 'story' %}" class="btn btn-outline-primary mt-3">
+      <i class="fas fa-arrow-left me-2"></i>Back to Stories
+    </a>
+  </div>
+
+  <div class="timeline">
+    {% for story in stories %}
+    <div class="timeline-event {% cycle 'left' 'right' %}">
+      <div class="timeline-content">
+        <div class="event-date">
+          <i class="fas fa-calendar-alt me-2"></i>{{ story.date }}
+        </div>
+        <h2 class="event-title">{{ story.title }}</h2>
+        <div class="entities-section">
+        <h3>Key Entities Involved:</h3>
+        <ul class="entities-list">
+            {% for entity in story.entities %}
+                <li>{{ entity }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+        <div class="event-summary">
+          {{ story.summary }}
+        </div>
+
+        <!-- Podcast Button -->
+        <button class="btn btn-outline-primary btn-sm mb-3 listen-btn" 
+                data-story-id="{{ story.id }}"
+                data-story-title="{{ story.title }}"
+                data-story-summary="{{ story.summary|escapejs }}">
+          <i class="fas fa-headphones me-2"></i>Listen to Podcast
+        </button>
+
+        {% if story.emails %}
+        <div class="related-emails mt-4">
+          <h5 class="mb-3"><i class="fas fa-envelope me-2"></i>Related Emails</h5>
+          {% for email in story.emails %}
+          <div class="card email-card">
+            <div class="card-body">
+              <h6 class="email-subject card-title">{{ email.subject }}</h6>
+              <div class="email-meta card-subtitle mb-2 text-muted">
+                <div><strong>From:</strong> {{ email.sender }}</div>
+                <div><strong>To:</strong> {{ email.recipient }}</div>
+                <div><strong>Date:</strong> {{ email.date }}</div>
+              </div>
+              <div class="email-content">{{ email.content }}</div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- Podcast Modal -->
+<div class="modal fade" id="podcastModal" tabindex="-1" aria-labelledby="podcastModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title" id="podcastModalLabel">🎙️ Podcast Episode</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="podcastContent">
+        <div class="text-center my-5 text-muted">Generating podcast...</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const events = document.querySelectorAll('.timeline-event');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+    events.forEach(event => observer.observe(event));
+  });
+
+  let synth = window.speechSynthesis;
+  let currentUtterances = [];
+  let paused = false;
+  let currentIndex = 0;
+
+  document.querySelectorAll('.listen-btn').forEach(button => {
+    button.addEventListener('click', async function () {
+      const title = this.dataset.storyTitle;
+      const summary = this.dataset.storySummary;
+
+      const response = await fetch('{% url "generate_podcast" %}', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': '{{ csrf_token }}',
+        },
+        body: JSON.stringify({ title, summary })
+      });
+
+      const data = await response.json();
+
+      // Display content
+      document.getElementById('podcastContent').innerHTML = `
+        <p><strong>Host:</strong> ${data.host}</p>
+        <p><strong>Guest:</strong> ${data.guest}</p>
+        <hr>
+        <div id="transcriptText">${data.transcript.replace(/\n/g, '<br>')}</div>
+        <div class="text-center mt-4">
+          <button id="playBtn" class="btn btn-primary me-2"><i class="fas fa-play"></i> Play</button>
+          <button id="pauseBtn" class="btn btn-secondary"><i class="fas fa-pause"></i> Pause</button>
+        </div>
+      `;
+
+      new bootstrap.Modal(document.getElementById('podcastModal')).show();
+
+      setTimeout(() => speakTranscript(data.transcript), 500);
+    });
+  });
+
+  function speakTranscript(transcript) {
+    synth.cancel();
+    paused = false;
+    currentUtterances = [];
+    currentIndex = 0;
+
+    const loadVoices = new Promise(resolve => {
+      let voices = synth.getVoices();
+      if (voices.length) resolve(voices);
+      else speechSynthesis.onvoiceschanged = () => resolve(synth.getVoices());
+    });
+
+    loadVoices.then(voices => {
+      const hostVoice = voices.find(v => /Daniel|Google UK English Male|en-GB/.test(v.name)) 
+                 || voices.find(v => v.name.toLowerCase().includes('male')) 
+                 || voices.find(v => v.lang === 'en-GB') 
+                 || voices[0];
+
+const guestVoice = voices.find(v => /Samantha|Google US English Female|en-US/.test(v.name)) 
+                  || voices.find(v => v.name.toLowerCase().includes('female')) 
+                  || voices.find(v => v.lang === 'en-US') 
+                  || voices[1] || voices[0];
+
+
+      const speakerBlocks = transcript.split(/\*\*(Host|Guest):\*\*/).filter(Boolean);
+const lines = [];
+
+for (let i = 0; i < speakerBlocks.length - 1; i += 2) {
+  const speaker = speakerBlocks[i].trim();
+  const text = speakerBlocks[i + 1].trim();
+  lines.push({ speaker, text: `${speaker} : ${text}` });
+}
+
+
+      currentUtterances = lines.map(line => {
+        const utter = new SpeechSynthesisUtterance(line.text);
+        utter.voice = line.speaker === "Host" ? hostVoice : guestVoice;
+        utter.rate = 1;
+        utter.onend = () => {
+          if (!paused) {
+            currentIndex++;
+            speakNextUtterance();
+          }
+        };
+        return utter;
+      });
+
+      speakNextUtterance();
+    });
+  }
+
+  function speakNextUtterance() {
+    if (currentIndex < currentUtterances.length && !paused) {
+      synth.speak(currentUtterances[currentIndex]);
+    }
+  }
+
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('#playBtn')) {
+      if (paused) {
+        paused = false;
+        speakNextUtterance();
+      } else if (!synth.speaking) {
+        const text = document.getElementById('transcriptText').innerText;
+        speakTranscript(text);
+      }
+    }
+    if (e.target.closest('#pauseBtn')) {
+      if (synth.speaking) {
+        synth.cancel();
+        paused = true;
+      }
+    }
+  });
+</script>
+</body>
+</html>

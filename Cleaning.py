@@ -2,7 +2,7 @@ import pandas as pd
 import re
 
 # Load CSV
-csv_path = r"E:\SchmalkaldenAdventure\Sem 2\HMI\enron_email_chunks.csvw"
+csv_path = r"File Path"
 df = pd.read_csv(csv_path)
 
 # --- Step 1: Extract Original Message Body (If Forwarded/Replied) ---

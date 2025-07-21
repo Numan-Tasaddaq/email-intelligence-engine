@@ -6,7 +6,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.metrics import classification_report, accuracy_score
 
 # === Step 1: Load Data ===
-input_csv = r"E:\SchmalkaldenAdventure\Sem 2\HMI\Enron\classified_enron_emails_full.csv"
+input_csv = r"File Path"
 df = pd.read_csv(input_csv)
 
 # Remove rows with missing data
@@ -44,6 +44,6 @@ print("Accuracy:", accuracy_score(y_test, y_pred))
 df["topic_predicted"] = pipeline.predict(df["text"])
 
 # === Step 7: Save Result ===
-output_path = r"E:\SchmalkaldenAdventure\Sem 2\HMI\Enron\ml_classified_topics.csv"
+output_path = r"File Path"
 df.to_csv(output_path, index=False)
 print(f"ML topic predictions saved to: {output_path}")

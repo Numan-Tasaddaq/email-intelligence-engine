@@ -72,7 +72,7 @@ def save_chunks_to_csv(chunks, output_file):
 
 # ========== RUN ==========
 if __name__ == "__main__":
-    root_dir = r"E:\SchmalkaldenAdventure\Sem 2\HMI\Enron\INEnron"
+    root_dir = r"File Path"
     output_csv = "enron_email_chunks.csv"
 
     chunks = process_directory(root_dir)

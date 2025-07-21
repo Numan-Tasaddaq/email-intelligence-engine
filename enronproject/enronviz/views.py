@@ -26,7 +26,7 @@ from matplotlib.patches import Patch
 genai.configure(api_key=settings.GEMINI_API_KEY)
 model = genai.GenerativeModel("gemini-1.5-flash")
 # Load data once
-df = pd.read_csv("E:/SchmalkaldenAdventure/Sem 2/HMI/Enron/enron_rule_categorized.csv")
+df = pd.read_csv("File Path")
 
 # === Preprocessing ===
 df = df.dropna(subset=['body_chunk', 'rule_category', 'from', 'to', 'date'])

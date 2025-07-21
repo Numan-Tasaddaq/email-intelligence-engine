@@ -1,7 +1,7 @@
 import pandas as pd
 
 # === Load your CSV with combined text ===
-input_csv = r"E:\SchmalkaldenAdventure\Sem 2\HMI\Enron\ml_classified_topics.csv"
+input_csv = r"File Path"
 df = pd.read_csv(input_csv)
 
 # === Define the categorization function ===
@@ -31,7 +31,7 @@ def rule_based_category(text):
 df['rule_category'] = df['text'].apply(rule_based_category)
 
 # === Save the categorized dataset ===
-output_csv = r"E:\SchmalkaldenAdventure\Sem 2\HMI\Enron\enron_rule_categorized.csv"
+output_csv = r"File Path"
 df.to_csv(output_csv, index=False)
 print(f"Rule-based categorization applied and saved to: {output_csv}")
 

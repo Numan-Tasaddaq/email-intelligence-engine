@@ -2,7 +2,7 @@ import pandas as pd
 from dateutil import parser
 
 # === Step 0: Load the dataset ===
-input_csv = r"E:\SchmalkaldenAdventure\Sem 2\HMI\Enron\parsed_chunked_emails_cleaned.csv"
+input_csv = r"File Path"
 df = pd.read_csv(input_csv)
 
 # Fill missing text fields to avoid errors
@@ -75,7 +75,7 @@ full_bodies['role_from'] = full_bodies['from'].apply(classify_role)
 full_bodies['role_to'] = full_bodies['to'].apply(classify_role)
 
 # === Step 4: Save results ===
-output_csv = r"E:\SchmalkaldenAdventure\Sem 2\HMI\Enron\classified_enron_emails_full.csv"
+output_csv = r"File Path"
 full_bodies.to_csv(output_csv, index=False)
 
 print(f"Full email classification complete. Results saved to: {output_csv}")

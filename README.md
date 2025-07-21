@@ -1,6 +1,6 @@
 # Enron Email Visualization & Analysis Platform
 
-![Enron Logo](https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Enron_Logo.svg/1200px-Enron_Logo.svg.png)
+
 
 A Django-based web application for exploring the Enron email dataset through interactive visualizations, narrative storytelling, and AI-powered analysis.
 
